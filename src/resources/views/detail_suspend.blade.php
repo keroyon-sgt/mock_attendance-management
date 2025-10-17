@@ -55,7 +55,7 @@
                         </tr>
                     </table>
                 </div>
-            @if($admin)
+            @if($admin_mode)
                 <div class="form__button">
                 @if($list['status']=== 1 )
                     <!-- <form class="form" action="{{ Request::url() }}" method="post"> -->

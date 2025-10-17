@@ -43,24 +43,10 @@ Route::middleware('auth')->group(function() { //verified
     Route::get('/attendance/list/{period}', [TimesheetController::class, 'attendanceRoll']);
 
     Route::get('/attendance/detail/{id}', [TimesheetController::class, 'detail']);
-    Route::post('/attendance/detail/{id}', [TimesheetController::class, 'update']);
+    // Route::post('/attendance/detail/{id}', [TimesheetController::class, 'update']);
 
     Route::get('/stamp_correction_request/list', [TimesheetController::class, 'requestRoll']);
 });
-
-// Route::get('/', [TimesheetController::class, 'attendance']);
-// // Route::get('/verify', [UserController::class, 'verify']);
-
-// Route::get('/attendance', [TimesheetController::class, 'attendance']);
-// Route::post('/attendance', [TimesheetController::class, 'punch']);
-
-// Route::get('/attendance/list', [TimesheetController::class, 'attendanceRoll']);
-// Route::get('/attendance/list/{period}', [TimesheetController::class, 'attendanceRoll']);
-// Route::post('/attendance/list', [TimesheetController::class, 'attendanceRoll']);
-// Route::get('/attendance/detail/{id}', [TimesheetController::class, 'detail']);
-// Route::post('/attendance/detail/{id}', [TimesheetController::class, 'update']);
-
-// Route::get('/stamp_correction_request/list', [TimesheetController::class, 'requestRoll']);
 
 // ------------------------------------------------------------
 
@@ -82,20 +68,6 @@ Route::prefix('admin')->middleware('auth')->group(function() {  //verified
     Route::post('/requests/{id}', [TimesheetController::class, 'approve']);
 });
 
-// Route::get('/admin/login', [AuthController::class, 'adminLoginForm']);
-// Route::post('/admin/login', [AuthController::class, 'adminLogin']);
-
-// Route::get('/admin/attendances', [TimesheetController::class, 'dailyAttendanceRoll']);
-// Route::get('/admin/attendances/{id}', [TimesheetController::class, 'detail']);
-// Route::post('/admin/attendances/{id}', [TimesheetController::class, 'detail']);
-
-// Route::get('/admin/users', [UserController::class, 'userRoll']);
-// Route::get('/admin/users/{user_id}/attendances', [TimesheetController::class, 'attendanceRoll']);
-
-// Route::get('/admin/requests', [TimesheetController::class, 'requestRoll']);
-
-// Route::get('/admin/requests/{id}', [TimesheetController::class, 'detail']);
-// Route::post('/admin/requests/{id}', [TimesheetController::class, 'approve']);
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');

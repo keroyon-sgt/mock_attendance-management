@@ -52,7 +52,7 @@
         </tr>
         @endforeach
     </table>
-@if($admin)
+@if($admin_mode)
     <form class="form" action="{{ Request::url() }}" method="post">
 @csrf
         <input type="hidden" name="user_id" value="{{ $user_id }}" />

@@ -31,6 +31,12 @@ class TimesheetController extends Controller
 
         $user = Auth::user();
 
+        if($user->status >1 ){
+            $admin_mode = TRUE;
+        }else{
+            $admin_mode = FALSE;
+        }
+
         $today = now()->format('Y-m-d');
 
         $clock=now()->format('H:i');
@@ -77,7 +83,7 @@ class TimesheetController extends Controller
         $today =  Carbon::parse($today)->isoFormat('YYYY年M月D日(ddd)'); //->formatLocalized('m月j(D)');
         $title = '出勤登録';
 
-        return view('attendance',compact('situation', 'situation_text', 'today', 'clock', 'title'));
+        return view('attendance',compact('situation', 'situation_text', 'today', 'clock', 'title', 'admin_mode'));
     }
 
     public function punch(Request $request)
@@ -111,6 +117,7 @@ class TimesheetController extends Controller
         $user_id = Auth::id();
         $title = '勤怠一覧';
         $detail_path = '/attendance/detail/';
+        $admin_mode = FALSE;
 
         $result = $this -> monthlyRoll( $user_id, $request );
 
@@ -121,17 +128,23 @@ class TimesheetController extends Controller
         $month_last = $result['month_last'];
         $month_next = $result['month_next'];
 
-        return view('list',compact('monthly_list', 'period', 'title', 'days', 'period_path', 'detail_path', 'month_last', 'month_next'));
+        return view('list',compact('monthly_list', 'period', 'title', 'days', 'period_path', 'detail_path', 'month_last', 'month_next', 'admin_mode'));
     }
 
     public function adminAttendanceRoll( $user_id, Request $request )//$period,
     {
+
+        $admin_mode = FALSE;
         $admin = Auth::user();
-        if($admin->status <= 1 && preg_match("/^admin/i",$request->path())){
-            return redirect('/logout');
+        if(preg_match("/^admin/i",$request->path())){
+            if($admin->status > 1){
+                $admin_mode = TRUE;
+            }else{
+                return redirect('/logout');
+            }
         }
 
-        $admin = TRUE;
+        $admin_mode = TRUE;
 
         $user = user::find($user_id);
         $title = $user->name.'さんの勤怠';
@@ -146,14 +159,21 @@ class TimesheetController extends Controller
         $month_last = $result['month_last'];
         $month_next = $result['month_next'];
 
-        return view('list',compact('monthly_list', 'period', 'title', 'days', 'period_path', 'detail_path', 'month_last', 'month_next', 'admin', 'user_id')); ///'user', 
+        return view('list',compact('monthly_list', 'period', 'title', 'days', 'period_path', 'detail_path', 'month_last', 'month_next', 'admin_mode', 'user_id')); ///'user', 
     }
 
     public function dailyAttendanceRoll( Request $request )//$period,
     {
+
+        $admin_mode = FALSE;
+
         $user = Auth::user();
-        if($user->status <= 1 && preg_match("/^admin/i",$request->path())){
-            return redirect('/logout');
+        if(preg_match("/^admin/i",$request->path())){
+            if($user->status > 1){
+                $admin_mode = TRUE;
+            }else{
+                return redirect('/logout');
+            }
         }
 
         if($request->date){
@@ -173,11 +193,11 @@ class TimesheetController extends Controller
         $date_last = $result['date_last'];
         $date_next = $result['date_next'];
 
-        return view('list_daily',compact('daily_list', 'date', 'title', 'date_path', 'detail_path', 'date_last', 'date_next'));
+        return view('list_daily',compact('daily_list', 'date', 'title', 'date_path', 'detail_path', 'date_last', 'date_next', 'admin_mode'));
 
     }
 
-    public function monthlyRoll( $user_id, Request $request )//$period,protected
+    protected function monthlyRoll( $user_id, Request $request )//$period,protected
     {
 
         if(!$period = $request->period){   // = $request->period
@@ -289,7 +309,7 @@ class TimesheetController extends Controller
         return $result;
     }
 
-    public function dailyRoll( Request $request )//$period,protected 
+    protected function dailyRoll( Request $request )//$period
     {
 
         if(!$date = $request->date){
@@ -395,25 +415,23 @@ class TimesheetController extends Controller
     public function detail($id, Request $request)
     {
 
+        $admin_mode = FALSE;
+        $title = '勤怠詳細';
+
         $user = Auth::user();
 
         if(preg_match("/^admin/i",$request->path())){
             if($user->status > 1){
-                $admin = TRUE;
+                $admin_mode = TRUE;
                 $title = '勤怠詳細';
             }else{
                 // return redirect('/logout');
-                echo '<br /><br />logout ';
             }
-        }else{
-            $admin = FALSE;
-            $title = '勤怠詳細';
         }
-
 
         $list = Timesheet::find($id);
 
-        if($admin){
+        if($admin_mode){
             $user = User::find($list->user_id);
         }
 
@@ -435,7 +453,7 @@ class TimesheetController extends Controller
 
         $sheet['status'] = $this->formatTime($list->status);
 
-        if($admin){
+        if($admin_mode){
 
             if(preg_match("/^admin\/requests/i",$request->path()) ){
                 $suspend = '_suspend';
@@ -449,7 +467,7 @@ class TimesheetController extends Controller
             $suspend = '';
         }
 
-        return view('detail'.$suspend, compact('user', 'list', 'sheet', 'admin' ,'title'));
+        return view('detail'.$suspend, compact('user', 'list', 'sheet', 'admin_mode' ,'title'));
     }
 
     public function update(Request $request)
@@ -483,6 +501,7 @@ class TimesheetController extends Controller
             return redirect('/attendance/list?period='.substr($sheet_today->date, 0, 7));
         }
     }
+
     public function approve($id, Request $request)
     {
 
@@ -511,10 +530,19 @@ class TimesheetController extends Controller
 
         $title = '申請一覧';
 
+        $admin_mode = FALSE;
+        $detail_path = '/attendance/detail/';
+
         $user = Auth::user();
-        if($user->status <= 1 && preg_match("/^admin/i",$request->path())){
-            return redirect('/logout');
+        if(preg_match("/^admin/i",$request->path())){
+            if($user->status > 1){
+                $admin_mode = TRUE;
+                $detail_path = '/admin/requests/';
+            }else{
+                return redirect('/logout');
+            }
         }
+
 
         if($request->status == '2'){
             $status = 2 ;
@@ -554,7 +582,7 @@ class TimesheetController extends Controller
                 ];
         }
 
-        return view('request',compact('request_list', 'title', 'bold_1', 'bold_2'));
+        return view('request',compact('request_list', 'title', 'bold_1', 'bold_2', 'admin_mode', 'detail_path'));
     }
 
     public function export($user_id, Request $request)
@@ -571,11 +599,6 @@ class TimesheetController extends Controller
         $result = $this -> monthlyRoll( $user_id, $request );
 
         $monthly_list = $result['monthly_list'];
-        // $period = $result['period'];
-        // $days = $result['days'];
-        // $period_path = $result['period_path'];
-        // $month_last = $result['month_last'];
-        // $month_next = $result['month_next'];
 
         $csvHeader = [
             '日付',
@@ -589,9 +612,6 @@ class TimesheetController extends Controller
         $csvData=array();
         foreach($monthly_list as $date => $each_sheet){
 
-// echo '<br /><br />each_sheet = ';
-// var_dump($each_sheet);
-
             $csvData[ $date ]= array(
                 $each_sheet['date'],
                 $each_sheet['punch_in'],
@@ -601,13 +621,6 @@ class TimesheetController extends Controller
             );
 
         }
-
-// echo '<br /><br />csvData = ';
-// var_dump($csvData);
-
-// echo '<br /><br />file_name = ';
-// var_dump($file_name);
-// exit;
 
         $response = new StreamedResponse(function () use ($csvHeader, $csvData) {
             $handle = fopen('php://output', 'w');

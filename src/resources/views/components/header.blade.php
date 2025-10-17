@@ -7,15 +7,15 @@
         <nav class="header__nav">
             <ul>
                 @if(Auth::check())
-                    <!-- if(_admin_mode) -->
+                    @if($admin_mode)
                 <li><a href="/admin/attendances">勤怠一覧</a></li>
                 <li><a href="/admin/users">スタッフ一覧</a></li>
                 <li><a href="/admin/requests">申請一覧</a></li>
-                    <!-- else -->
+                    @else
                 <li><a href="/attendance">勤怠</a></li>
                 <li><a href="/attendance/list">勤怠一覧</a></li>
                 <li><a href="/stamp_correction_request/list">申請</a></li>
-                    <!-- endif -->
+                    @endif
                 <li>
                     <form action="/logout" method="post">
                         @csrf

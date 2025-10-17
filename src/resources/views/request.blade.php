@@ -40,7 +40,7 @@
         <td class="list__data">{{$each_request['updated_at']}}</td>
         <td class="list__data bold">
             @if($each_request['id'])
-                <a class="list__detail-btn" href="/admin/requests/{{$each_request['id']}}">詳細</a>
+                <a class="list__detail-btn" href="{{$detail_path}}{{$each_request['id']}}">詳細</a>
             @else
                 詳細
             @endif

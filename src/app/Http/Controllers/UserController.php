@@ -64,10 +64,19 @@ class UserController extends Controller
         return redirect('mail/verify')->with('message', '登録しました');
     }
 
-    public function userRoll()
+    public function userRoll(Request $request)
     {
 
+        $admin_mode = FALSE;
+
         $admin = Auth::user();
+        if(preg_match("/^admin/i",$request->path())){
+            if($admin->status > 1){
+                $admin_mode = TRUE;
+            }else{
+                return redirect('/logout');
+            }
+        }
 
         if ( Auth::check() && $admin->status === 2 ) {
             $users = User::where('status','>', 0)->get();
@@ -75,7 +84,7 @@ class UserController extends Controller
             return redirect('/logout');
         }
 
-        return view('users',compact('users'));
+        return view('users',compact('users', 'admin_mode'));
 
     }
 
