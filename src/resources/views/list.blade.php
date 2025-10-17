@@ -52,6 +52,16 @@
         </tr>
         @endforeach
     </table>
+@if($admin)
+    <form class="form" action="{{ Request::url() }}" method="post">
+@csrf
+        <input type="hidden" name="user_id" value="{{ $user_id }}" />
+        <input type="hidden" name="period" value="{{ $period }}" />
+        <div class="form__button">
+            <button class="form__button-submit" type="submit">CSV出力</button>
+        </div>
+    </form>
+@endif
 </div>
 <script>
 const dateInput = document.getElementById('calendar');

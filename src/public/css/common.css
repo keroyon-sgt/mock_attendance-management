@@ -117,7 +117,7 @@ header {
 .btn {
     display: flex;
     align-items: center;
-    background-color: #ff333f;
+    background-color: #000f;
     border-radius: 5px;
     color: #fff;
     font-weight: bold;
@@ -135,24 +135,6 @@ header {
     width: 100%;
     margin-top: 60px;
     font-size: 20px;
-}
-
-.btn2 {
-    border: 2px solid #FF5555;
-    border-radius: 10px;
-    color: #FF5555;
-    padding: 15px;
-    font-weight: bold;
-    text-align: center;
-    align-items: center;
-}
-
-.btn2:hover {
-    cursor: pointer;
-}
-
-.btn2--input {
-    display: none;
 }
 
 .center {

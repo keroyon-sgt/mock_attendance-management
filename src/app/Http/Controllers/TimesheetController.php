@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+use Symfony\Component\HttpFoundation\StreamedResponse;
+
 use App\Http\Requests\StoreTimesheetRequest;
 use App\Http\Requests\UpdateTimesheetRequest;
 
@@ -129,6 +131,8 @@ class TimesheetController extends Controller
             return redirect('/logout');
         }
 
+        $admin = TRUE;
+
         $user = user::find($user_id);
         $title = $user->name.'さんの勤怠';
         $detail_path = '/admin/attendances/';
@@ -142,7 +146,7 @@ class TimesheetController extends Controller
         $month_last = $result['month_last'];
         $month_next = $result['month_next'];
 
-        return view('list',compact('monthly_list', 'period', 'title', 'days', 'period_path', 'detail_path', 'month_last', 'month_next')); ///'user', 
+        return view('list',compact('monthly_list', 'period', 'title', 'days', 'period_path', 'detail_path', 'month_last', 'month_next', 'admin', 'user_id')); ///'user', 
     }
 
     public function dailyAttendanceRoll( Request $request )//$period,
@@ -553,5 +557,73 @@ class TimesheetController extends Controller
         return view('request',compact('request_list', 'title', 'bold_1', 'bold_2'));
     }
 
+    public function export($user_id, Request $request)
+    {
+
+        $admin = Auth::user();
+        if($admin->status <= 1 && preg_match("/^admin/i",$request->path())){
+            return redirect('/logout');
+        }
+
+        $user = user::find($user_id);
+        $file_name = $user->name.'_'.$request->period;
+
+        $result = $this -> monthlyRoll( $user_id, $request );
+
+        $monthly_list = $result['monthly_list'];
+        // $period = $result['period'];
+        // $days = $result['days'];
+        // $period_path = $result['period_path'];
+        // $month_last = $result['month_last'];
+        // $month_next = $result['month_next'];
+
+        $csvHeader = [
+            '日付',
+            '出勤',
+            '退勤',
+            '休憩',
+            '合計',
+        ];
+
+
+        $csvData=array();
+        foreach($monthly_list as $date => $each_sheet){
+
+// echo '<br /><br />each_sheet = ';
+// var_dump($each_sheet);
+
+            $csvData[ $date ]= array(
+                $each_sheet['date'],
+                $each_sheet['punch_in'],
+                $each_sheet['punch_out'],
+                $each_sheet['break'],
+                $each_sheet['time_worked'],
+            );
+
+        }
+
+// echo '<br /><br />csvData = ';
+// var_dump($csvData);
+
+// echo '<br /><br />file_name = ';
+// var_dump($file_name);
+// exit;
+
+        $response = new StreamedResponse(function () use ($csvHeader, $csvData) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, $csvHeader);
+
+            foreach ($csvData as $row) {
+                fputcsv($handle, $row);
+            }
+
+            fclose($handle);
+        }, 200, [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="'.$file_name.'.csv"',
+        ]);
+
+        return $response;
+    }
 
 }

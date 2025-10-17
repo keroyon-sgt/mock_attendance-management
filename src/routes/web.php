@@ -74,6 +74,7 @@ Route::prefix('admin')->middleware('auth')->group(function() {  //verified
 
     Route::get('/users', [UserController::class, 'userRoll']);
     Route::get('/users/{user_id}/attendances', [TimesheetController::class, 'adminAttendanceRoll']);
+    Route::POST('/users/{user_id}/attendances', [TimesheetController::class, 'export']);
 
     Route::get('/requests', [TimesheetController::class, 'requestRoll']);
 
