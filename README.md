@@ -1,12 +1,12 @@
 # 模擬案件　勤怠管理アプリ
 
-##環境構築
-###Docker ビルド
+## 環境構築
+### Docker ビルド
 
 1. git clone  git@github.com:keroyon-sgt/mock_attendance-management.git
 2. docker-compose up -d --build
 
-###Laravel 環境構築
+### Laravel 環境構築
 
 1. docker-compose exec php bash
 2. composer install
@@ -23,18 +23,18 @@
    生成されるユーザーのパスワードはすべて”password”
    
 
-##使用技術  
+## 使用技術  
 ・php 8.0  
 ・Laravel 8.x  
 ・MySQL 8.0  
 
-##ER 図
+## ER 図
 
 
+<img width="591" height="421" alt="Image" src="https://github.com/user-attachments/assets/ca36852c-1077-4cc5-94d1-41c68802dfb4" />
 
-![Image](https://github.com/keroyon-sgt/mock_attendance-management/issues/1#issue-3524618943)
 
-##URL  
+## URL  
 ・開発環境：http://localhost  
 ・phpMyAdmin：http://localhost:8080  
 ・MailHog：http://localhost:8025  
