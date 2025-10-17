@@ -73,7 +73,7 @@
 }
 
 /* フォーム */
-.search-form {
+/* .search-form {
     display: flex;
     align-items: stretch;
     flex-wrap: wrap;
@@ -117,10 +117,10 @@
 .search-form__reset-btn {
     padding: 12px;
     width: 90px;
-}
+} */
 
 /* エクスポートボタン */
-.export-form {
+/* .export-form {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -131,4 +131,4 @@
     background-color: #E1DBD6;
     color: #8B7969;
     font-weight: 400;
-}
+} */

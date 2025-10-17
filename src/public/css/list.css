@@ -57,6 +57,7 @@
 }
 
 /* フォーム */
+/* 
 .search-form {
     display: flex;
     align-items: stretch;
@@ -102,7 +103,7 @@
 .search-form__reset-btn {
     padding: 12px;
     width: 90px;
-}
+} */
 
 
 /* エクスポートボタン */

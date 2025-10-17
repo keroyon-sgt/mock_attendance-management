@@ -19,11 +19,7 @@
         <form id="calendar-form" class="search-form" action="/{{ Request::path() }}" method="get">
             <!-- csrf -->
             <input id="calendar" class="search-form__month" type="month" name="period" value="{{$period}}">
-
-            <!-- <div class="search-form__actions"> -->
-                <!-- <input class="search-form__search-btn btn" type="submit" value="検索"> -->
                 <button type="submit" style="display: none;"></button>
-            <!-- </div> -->
         </form>
         <div>
             <a href="/{{ $period_path }}?period={{ $month_next }}">翌月→</a>
