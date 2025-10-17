@@ -1,0 +1,47 @@
+.content__heading{
+    height:40px;
+    font-size: 24px;
+    line-height:36px;
+    border-left: solid 8px #000;
+    padding-left: 20px;
+}
+
+.list__table {
+    width: 100%;
+    color: #737373;
+    background-color: #FFF;
+    margin-top: 30px;
+    border-radius: 10px;
+    letter-spacing: 0.2em;
+}
+
+.list__table tr{
+    text-align: center;
+    line-height: 50px;
+    border-color: #f0eff2;
+}
+
+.list__table td {
+    text-align: center;
+    line-height: 40px;
+    border-top: 3px #f0eff2 solid;
+    height:50px;
+}
+
+.list__label-name, .list__data-name {
+    width: 30%;
+}
+
+.list__label-email, .list__label-email {
+    width: 40%;
+}
+
+.list__label-detail, .list__label-detail {
+    width: 30%;
+    font-weight: bold;
+}
+
+.bold {
+    font-weight: bold;
+    color: #000;
+}

@@ -1,0 +1,104 @@
+.content__heading{
+    height:40px;
+    font-size: 24px;
+    line-height:36px;
+    border-left: solid 8px #000;
+    padding-left: 20px;
+}
+
+.list__table {
+    width: 100%;
+    color: #777;
+    background-color: #FFF;
+    margin-top: 30px;
+    border-radius: 10px;
+    letter-spacing: 0.2em;
+}
+
+.list__table tr{
+    height:80px;
+    text-align: center;
+    line-height: 50px;
+    border-top: 3px #f0eff2 solid;
+}
+
+.list__table th {
+    padding-left: 50px;
+    vertical-align: middle;
+}
+
+.list__table td {
+    /* text-align: center; */
+    /* line-height: 40px; */
+    /* height:50px; */
+    vertical-align: middle;
+    color:#000;
+    font-weight: bold;
+}
+
+.list__flex {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.list__table-time input {
+    width:100px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0.2em;
+    margin: 0px 50px;
+}
+
+.list__table-remark input {
+    width:330px;
+    height: 48px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 0.2em;
+}
+
+
+
+.form__button-submit{
+    display: block;
+    margin: 30px 0 0 auto;
+    padding: 10px 40px;
+    background-color: #000;
+    color: #FFF;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.form__button-invalid{
+    display: block;
+    margin: 30px 0 0 auto;
+    padding: 10px 40px;
+    background-color: #777;
+    color: #FFF;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 0.2em;
+    border-radius: 5px;
+}
+
+.list__red{
+    color:red;
+}
+
+/* エクスポートボタン */
+/* .export-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 32px;
+}
+
+.export__btn {
+    background-color: #E1DBD6;
+    color: #8B7969;
+    font-weight: 400;
+}
+ */
