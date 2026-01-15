@@ -7,10 +7,10 @@
 @section('content')
 @include('components.header')
 <div class="mail_notice--div">
+    <!-- 
     <div class="mail_notice--header">
         <p class="notice_header--p">メール認証はお済みですか？</p>
     </div>
-
     <div class="mail_notice--content">
         @if (session('resent'))
         <p class="notice_resend--p" role="alert">
@@ -27,20 +27,18 @@
         </p>
     </div>
 </div>
-
-
-<div class="register-form__content">
-    <div class="register-form__heading">
-        <p>登録していただいたメールアドレスに認証メールを送付しました。<br />メール認証を完了してください。</p>
-    </div>
-    <form class="form" action="{{ route('verification.send') }}" method="get">
-        @csrf
-        <div class="form__button">
-            <button class="form__button-submit" type="submit">認証はこちらから</button>
+    <div class="register-form__content">
+        <div class="register-form__heading">
+            <p>登録していただいたメールアドレスに認証メールを送付しました。<br />メール認証を完了してください。</p>
         </div>
-    </form>
+    </div>
+-->
+    <div class="form__button-submit">
+        <a href="{{ route('verification.notice').'/'.$id.'/'.$hash }}">認証はこちらから</a>
+    </div>
     <div class="resend__link">
         <a href="{{ route('verification.send') }}">認証メールを再送する</a>
     </div>
 </div>
+
 @endsection

@@ -27,6 +27,9 @@ class AuthController extends Controller
         // ログインに成功したとき
         if (Auth::attempt($user)) {
             $request->session()->regenerate();
+            // dd($request->session()->all());
+            // var_dump(Auth::check());
+            // exit;
 
             return redirect('/')->with('message', 'ログインしました');
         }

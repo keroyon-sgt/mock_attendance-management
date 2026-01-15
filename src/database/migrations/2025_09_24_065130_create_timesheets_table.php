@@ -23,10 +23,10 @@ class CreateTimesheetsTable extends Migration
 
             $table->time('punch_in');    //->nullable();
             $table->time('punch_out')->nullable();//->useCurrent()
-            $table->time('break1_in')->nullable();
-            $table->time('break1_out')->nullable();
-            $table->time('break2_in')->nullable();
-            $table->time('break2_out')->nullable();
+            // $table->time('break1_in')->nullable();
+            // $table->time('break1_out')->nullable();
+            // $table->time('break2_in')->nullable();
+            // $table->time('break2_out')->nullable();
             $table->string('remark')->nullable();
             $table->tinyInteger('status')->nullable();
             $table->timestamps();

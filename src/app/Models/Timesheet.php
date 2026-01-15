@@ -14,12 +14,12 @@ class Timesheet extends Model
         'date',
         'punch_in',
         'punch_out',
-        'break1_in',
-        'break1_out',
-        'break2_in',
-        'break2_out',
+        // 'break1_in',
+        // 'break1_out',
+        // 'break2_in',
+        // 'break2_out',
         'remark',
-        'status',
+        // 'status',
     ];
 
     public function user()

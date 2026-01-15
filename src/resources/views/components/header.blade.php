@@ -6,16 +6,16 @@
         @if( !in_array(Route::currentRouteName(), ['register', 'login', 'verification.notice']) )
         <nav class="header__nav">
             <ul>
-                @if(Auth::check())
-                    @if($admin_mode)
-                <li><a href="/admin/attendances">勤怠一覧</a></li>
+                @if(Auth::guard('admins')->check())
+                <!-- <li><a href="/admin/attendances">勤怠一覧</a></li> -->
                 <li><a href="/admin/users">スタッフ一覧</a></li>
                 <li><a href="/admin/requests">申請一覧</a></li>
-                    @else
+                @elseif(Auth::check())
                 <li><a href="/attendance">勤怠</a></li>
                 <li><a href="/attendance/list">勤怠一覧</a></li>
                 <li><a href="/stamp_correction_request/list">申請</a></li>
-                    @endif
+                @endif
+                @if(Auth::guard('admins')->check()||Auth::check())
                 <li>
                     <form action="/logout" method="post">
                         @csrf
